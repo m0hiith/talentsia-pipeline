@@ -1,0 +1,78 @@
+# ── Publishing Schedule ───────────────────────────
+
+schedule:
+  timezone: Asia/Kolkata    # IST
+  post_times:
+    - "07:00"               # Morning — commute + coffee
+    - "12:00"               # Lunch break peak
+    - "19:00"               # Evening wind-down
+  max_posts_per_day: 3
+
+# ── Agent Run Schedule ────────────────────────────
+
+agents:
+  scraper:
+    run_every_hours: 2
+    enabled: true
+  ranker:
+    run_after: scraper
+    enabled: true
+  writer:
+    run_after: ranker
+    auto_run: false            # Requires top stories from ranker
+    enabled: true
+  visual:
+    run_after: writer
+    auto_run: false
+    enabled: true
+  avatar:
+    run_after: visual
+    auto_run: false
+    enabled: true
+  publisher:
+    auto_run: false            # Always requires human approval
+    approval_channel: telegram
+    enabled: true
+  scheduler:
+    auto_run: true             # Checks post schedule
+    enabled: true
+  notifier:
+    auto_run: true             # Sends daily summaries
+    enabled: true
+
+# ── Celery Beat Schedule ──────────────────────────
+
+celery:
+  broker_url: redis://localhost:6379/0
+  result_backend: redis://localhost:6379/1
+  beat_schedule:
+    scrape-sources:
+      task: tasks.run_scraper
+      schedule_hours: 2
+    daily-pipeline:
+      task: tasks.run_full_pipeline
+      cron: "0 6 * * *"       # 6 AM IST — prep for 7 AM post
+    morning-publish:
+      task: tasks.check_and_publish
+      cron: "0 7 * * *"       # 7 AM IST
+    afternoon-publish:
+      task: tasks.check_and_publish
+      cron: "0 12 * * *"      # 12 PM IST
+    evening-publish:
+      task: tasks.check_and_publish
+      cron: "0 19 * * *"      # 7 PM IST
+
+# ── Model Configuration ──────────────────────────
+
+models:
+  writer:
+    primary: mistral-ft        # Fine-tuned Mistral 7B via Ollama
+    fallback: llama3.1:8b      # LLaMA 3.1 8B via Ollama
+    cloud: claude-sonnet       # Anthropic Claude (cloud fallback)
+  visual:
+    image: flux.1-schnell      # FLUX.1 Schnell via ComfyUI
+    video: cogvideox           # CogVideoX-5B (or "wan21" for Wan2.1)
+  avatar:
+    voice: xtts-v2             # XTTS-v2 voice cloning
+    lip_sync: sadtalker        # SadTalker (or "latentsync" for LatentSync)
+    captions: whisper-large-v3 # Whisper Large V3 auto-captions

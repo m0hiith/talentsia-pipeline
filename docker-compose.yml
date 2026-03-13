@@ -1,0 +1,113 @@
+version: '3.8'
+
+services:
+  # ── FastAPI Backend ──────────────────────
+  api:
+    build: .
+    command: uvicorn api.main:app --host 0.0.0.0 --port 8000 --reload
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+      - ./output:/app/output
+      - ./assets:/app/assets
+    env_file:
+      - .env
+    depends_on:
+      - redis
+    networks:
+      - talentsia
+    restart: unless-stopped
+
+  # ── React Dashboard ─────────────────────
+  dashboard:
+    build: ./dashboard
+    ports:
+      - "5173:5173"
+    volumes:
+      - ./dashboard:/app
+      - /app/node_modules
+    environment:
+      - VITE_API_URL=http://localhost:8000
+    networks:
+      - talentsia
+    restart: unless-stopped
+
+  # ── Celery Worker ───────────────────────
+  celery-worker:
+    build: .
+    command: celery -A celery_app worker --loglevel=info --concurrency=2
+    volumes:
+      - .:/app
+      - ./output:/app/output
+      - ./assets:/app/assets
+    env_file:
+      - .env
+    depends_on:
+      - redis
+    networks:
+      - talentsia
+    restart: unless-stopped
+
+  # ── Celery Beat Scheduler ───────────────
+  celery-beat:
+    build: .
+    command: celery -A celery_app beat --loglevel=info
+    volumes:
+      - .:/app
+    env_file:
+      - .env
+    depends_on:
+      - redis
+    networks:
+      - talentsia
+    restart: unless-stopped
+
+  # ── Redis (Message Broker) ──────────────
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - talentsia
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+
+  # ── Nginx Reverse Proxy ─────────────────
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./config/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./output:/app/output:ro
+    depends_on:
+      - api
+      - dashboard
+    networks:
+      - talentsia
+    restart: unless-stopped
+
+  # ── PostgreSQL (optional, for production) ─
+  # postgres:
+  #   image: postgres:16-alpine
+  #   ports:
+  #     - "5432:5432"
+  #   environment:
+  #     POSTGRES_DB: talentsia
+  #     POSTGRES_USER: talentsia
+  #     POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-talentsia_dev}
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   networks:
+  #     - talentsia
+
+volumes:
+  redis_data:
+  # postgres_data:
+
+networks:
+  talentsia:
+    driver: bridge

@@ -1,0 +1,91 @@
+# ── Data Sources ──────────────────────────────────
+
+reddit:
+  enabled: true
+  subreddits:
+    - AINews
+    - technology
+    - jobs
+    - singularity
+    - MachineLearning
+    - artificial
+    - r/technology
+    - r/jobs
+  sort: hot
+  limit: 20
+  min_score: 50
+
+rss:
+  enabled: true
+  feeds:
+    - name: TechCrunch
+      url: https://techcrunch.com/feed/
+    - name: The Verge
+      url: https://www.theverge.com/rss/index.xml
+    - name: Wired
+      url: https://www.wired.com/feed/rss
+    - name: Ars Technica
+      url: https://feeds.arstechnica.com/arstechnica/index
+    - name: MIT Tech Review
+      url: https://www.technologyreview.com/feed/
+    - name: VentureBeat
+      url: https://venturebeat.com/feed/
+
+hackernews:
+  enabled: true
+  categories:
+    - topstories
+    - beststories
+  limit: 30
+  min_score: 100
+
+twitter:
+  enabled: false   # Requires TWITTER_BEARER_TOKEN in .env
+  hashtags:
+    - AI
+    - TechJobs
+    - MachineLearning
+    - Automation
+    - ArtificialIntelligence
+  limit: 20
+
+worldmonitor:
+  enabled: false   # Requires local WorldMonitor instance
+  base_url: http://localhost:3001
+  categories:
+    - ai
+    - tech
+    - jobs
+  limit: 20
+
+# ── Niche Keywords (for relevance scoring) ────────
+
+niche_keywords:
+  - artificial intelligence
+  - machine learning
+  - deep learning
+  - LLM
+  - GPT
+  - automation
+  - tech jobs
+  - hiring
+  - startup
+  - robotics
+  - AGI
+  - neural network
+  - computer vision
+  - NLP
+  - generative AI
+  - remote work
+  - layoffs
+  - AI safety
+  - open source
+  - transformer
+  - fine-tuning
+
+# ── Scraper Settings ──────────────────────────────
+
+scraper:
+  interval_hours: 2
+  max_stories_per_run: 50
+  dedup_window_days: 7

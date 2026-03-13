@@ -1,0 +1,53 @@
+# ── Core ──────────────────────────────────
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+pydantic==2.10.4
+pydantic-settings==2.7.1
+python-dotenv==1.0.1
+python-multipart==0.0.20
+
+# ── Data Ingestion ────────────────────────
+praw==7.8.1               # Reddit API (PRAW)
+feedparser==6.0.11         # RSS feeds
+httpx==0.28.1              # Async HTTP client
+beautifulsoup4==4.12.3     # HTML parsing
+
+# ── Task Queue ────────────────────────────
+celery[redis]==5.4.0
+redis==5.2.1
+apscheduler==3.10.4
+
+# ── AI / ML ───────────────────────────────
+requests==2.32.3           # Ollama REST API calls
+numpy==1.26.4
+sentence-transformers==3.3.1  # Semantic similarity for ranker
+
+# ── Media Processing ─────────────────────
+moviepy==1.0.3             # Video assembly (avatar + B-roll + captions)
+Pillow==11.1.0             # Image processing / thumbnail crop
+
+# ── Config ────────────────────────────────
+pyyaml==6.0.2
+
+# ── Telegram Bot ──────────────────────────
+python-telegram-bot==21.9
+
+# ── Whisper (Caption Generation) ──────────
+# openai-whisper==20231117  # Uncomment for local Whisper
+# OR use faster-whisper for speed:
+# faster-whisper==1.0.3
+
+# ── Voice Synthesis (XTTS-v2) ────────────
+# TTS==0.22.0              # Coqui TTS (includes XTTS-v2) — install on GPU machine
+# NOTE: XTTS-v2 needs ~4GB VRAM, run on local GPU or RunPod
+
+# ── Avatar / Lip Sync ────────────────────
+# SadTalker and LatentSync are installed as git repos:
+# pip install git+https://github.com/OpenTalker/SadTalker.git
+# pip install git+https://github.com/bytedance/LatentSync.git
+
+# ── Image / Video Generation ─────────────
+# FLUX.1 Schnell runs via ComfyUI (separate service)
+# CogVideoX runs via its own API server
+# Wan2.1 runs via its own inference server
+# These are NOT pip packages — they run as Docker services

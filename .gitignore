@@ -1,0 +1,62 @@
+# ── Python ────────────────────────────────────────
+__pycache__/
+*.py[cod]
+*.pyo
+*.egg-info/
+dist/
+build/
+*.egg
+.eggs/
+
+# ── Virtual Environment ──────────────────────────
+venv/
+.venv/
+env/
+
+# ── IDE ───────────────────────────────────────────
+.idea/
+.vscode/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# ── Environment ──────────────────────────────────
+.env
+.env.local
+.env.*.local
+
+# ── Database ─────────────────────────────────────
+db/*.db
+db/*.db-journal
+db/*.db-wal
+db/*.db-shm
+
+# ── Output ───────────────────────────────────────
+output/
+*.mp4
+*.wav
+*.mp3
+
+# ── Model Files ──────────────────────────────────
+*.gguf
+*.safetensors
+*.bin
+*.pt
+*.pth
+checkpoints/
+
+# ── Node.js (Dashboard) ─────────────────────────
+node_modules/
+dashboard/node_modules/
+dashboard/dist/
+
+# ── Docker ───────────────────────────────────────
+docker-compose.override.yml
+
+# ── Misc ─────────────────────────────────────────
+*.log
+logs/
+tmp/
+.celerybeat-schedule
+celerybeat-schedule.*
