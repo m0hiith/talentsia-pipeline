@@ -1,0 +1,129 @@
+.header {
+  height: 64px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 24px;
+  background-color: var(--panel-bg);
+  border-bottom: 1px solid var(--border);
+}
+
+.brandGroup {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.logo {
+  font-family: var(--font-serif);
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: 1px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.logoIcon {
+  width: 14px;
+  height: 14px;
+  background-color: var(--accent-orange);
+  border-radius: 50%;
+  position: relative;
+}
+
+.logoIcon::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  right: 3px;
+  bottom: 3px;
+  background-color: var(--background);
+  border-radius: 50%;
+}
+
+.logoDot {
+  color: var(--accent-orange);
+}
+
+.liveIndicator {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background-color: var(--status-live-bg);
+  color: var(--status-live);
+  border: 1px solid rgba(0, 255, 65, 0.2);
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 11px;
+  font-family: var(--font-mono);
+  letter-spacing: 1px;
+}
+
+.liveDot {
+  width: 6px;
+  height: 6px;
+  background-color: var(--status-live);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--status-live);
+  animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+.actionsGroup {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.textButton {
+  font-size: 12px;
+  font-family: var(--font-mono);
+  color: var(--text-secondary);
+  letter-spacing: 1px;
+  transition: color 0.2s;
+}
+
+.textButton:hover {
+  color: var(--text-primary);
+}
+
+.primaryButton {
+  background-color: var(--accent-orange);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  font-size: 12px;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  letter-spacing: 1px;
+  transition: background-color 0.2s;
+}
+
+.primaryButton:hover {
+  background-color: var(--accent-orange-hover);
+}
+
+.playIcon {
+  font-size: 10px;
+}
+
+.iconButton {
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: color 0.2s;
+}
+
+.iconButton:hover {
+  color: var(--text-primary);
+}
