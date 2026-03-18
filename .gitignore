@@ -60,3 +60,4 @@ logs/
 tmp/
 .celerybeat-schedule
 celerybeat-schedule.*
+*.db
